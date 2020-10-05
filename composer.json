@@ -1,0 +1,59 @@
+{
+    "name": "awema-pl/module-auth",
+    "description": "Laravel Authentication package with built-in two-factor (Authy) and social authentication (Socialite).",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Karol Golec",
+            "email": "karolgolec10@gmail.com",
+            "homepage": "https://github.pl/awema-pl/module-auth",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "email": "karolgolec10@gmail.com"
+    },
+    "homepage": "https://github.com/awema-pl/module-auth",
+    "keywords": [
+        "laravel",
+        "auth",
+        "authentication",
+        "authorisation",
+        "authorization",
+        "registration",
+        "two factor authentication",
+        "2fa",
+        "authy",
+        "socialite"
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^7.0.1",
+        "illuminate/support": "~5|~6|~7|~8|~9"
+    },
+    "autoload": {
+        "psr-4": {
+            "AwemaPL\\Auth\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "AwemaPL\\Auth\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit --colors=always --configuration phpunit.xml.dist --debug"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "AwemaPL\\Auth\\AuthServiceProvider"
+            ],
+            "aliases": {
+                "AwemaAuth": "AwemaPL\\Auth\\Facades\\Auth"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

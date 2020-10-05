@@ -1,0 +1,18 @@
+image: awescodehub/php7.2-fpm-gitlab
+
+cache:
+  paths:
+  - vendor/
+
+before_script:
+# Install all project dependencies
+- composer install
+
+# Run our tests
+test:
+    only:
+        - master
+        - dev
+    script:
+        - vendor/bin/phpunit --configuration phpunit.xml.dist --coverage-text --colors=never
+    coverage: '/^\s*Methods:\s*\d+.\d+\%\s*\(\d+\/\d+\)/'
