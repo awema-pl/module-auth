@@ -86,20 +86,22 @@ class Auth implements AuthContract
      */
     protected function loginRoutes()
     {
-        $this->router->get(
-            'login',
-            '\AwemaPL\Auth\Controllers\LoginController@showLoginForm'
-        )->name('login');
+       $this->router->middleware(['web'])->group(function(){
+           $this->router->get(
+               'login',
+               '\AwemaPL\Auth\Controllers\LoginController@showLoginForm'
+           )->name('login');
 
-        $this->router->post(
-            'login',
-            '\AwemaPL\Auth\Controllers\LoginController@login'
-        );
+           $this->router->post(
+               'login',
+               '\AwemaPL\Auth\Controllers\LoginController@login'
+           );
 
-        $this->router->any(
-            'logout',
-            '\AwemaPL\Auth\Controllers\LoginController@logout'
-        )->name('logout');
+           $this->router->any(
+               'logout',
+               '\AwemaPL\Auth\Controllers\LoginController@logout'
+           )->name('logout');
+       });
     }
 
     /**
@@ -109,15 +111,17 @@ class Auth implements AuthContract
      */
     protected function registrationRoutes()
     {
-        $this->router->get(
-            'register',
-            '\AwemaPL\Auth\Controllers\RegisterController@showRegistrationForm'
-        )->name('register');
+        $this->router->middleware(['web'])->group(function(){
+            $this->router->get(
+                'register',
+                '\AwemaPL\Auth\Controllers\RegisterController@showRegistrationForm'
+            )->name('register');
 
-        $this->router->post(
-            'register',
-            '\AwemaPL\Auth\Controllers\RegisterController@register'
-        );
+            $this->router->post(
+                'register',
+                '\AwemaPL\Auth\Controllers\RegisterController@register'
+            );
+        });
     }
 
     /**
