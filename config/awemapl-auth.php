@@ -62,12 +62,12 @@ return [
     |--------------------------------------------------------------------------
     */
     'redirects' => [
-        'login' => '/twofactor',
-        'register' => '/twofactor',
+        'login' => '/',
+        'register' => '/',
         'reset_password' => '/',
-        'social_login' => '/twofactor',
-        'twofactor_login' => '/twofactor',
-        'email_verification' => '/twofactor',
+        'social_login' => '/',
+        'twofactor_login' => '/',
+        'email_verification' => '/',
         'forgot_password' => '/password/reset',
         'twofactor' => '/',
     ],
@@ -75,5 +75,12 @@ return [
     'mailables' => [
         // 'email_verification' => AwemaPL\Mail\Mail\EmailConfirmation::class,
         // 'reset_password' => AwemaPL\Mail\Mail\ResetPassword::class,
-    ]
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | With registration form
+    |--------------------------------------------------------------------------
+    */
+    'with_register' => true,
 ];

@@ -33,7 +33,9 @@ class AuthServiceProvider extends ServiceProvider
             __DIR__.'/../config/awemapl-auth.php' => config_path('awemapl-auth.php'),
         ], 'config');
 
-        $this->bootMigrationsPublishing();
+        $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
+
+       // $this->bootMigrationsPublishing();
 
         $this->publishes([
             __DIR__.'/../views' => resource_path('views/vendor/awemapl-auth'),
@@ -41,6 +43,7 @@ class AuthServiceProvider extends ServiceProvider
 
         Event::subscribe(EventSubscriber::class);
     }
+
 
     /**
      * Register any application services.
