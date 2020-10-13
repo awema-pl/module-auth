@@ -24,4 +24,4 @@ Please search on the [issue tracker](../) before creating one.
 
 
 ## System GA
-[![Analytics](https://ga-beacon.appspot.com/UA-134431636-1/awes-io/issues)](https://github.com/awes-io/issues)
+[![Analytics](https://ga-beacon.appspot.com/UA--1/awema-io/issues)](https://github.com/awes-io/issues)

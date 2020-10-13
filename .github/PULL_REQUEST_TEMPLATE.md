@@ -38,4 +38,4 @@ Demonstrate the code is solid. Example: The exact commands you ran and their out
 Fixes #
 
 ## System GA 
-[![Analytics](https://ga-beacon.appspot.com/UA-134431636-1/awes-io/awes-io)](https://github.com/awes-io/issues)
+[![Analytics](https://ga-beacon.appspot.com/UA--1/awema-io/awes-io)](https://github.com/awes-io/issues)

@@ -1,4 +1,4 @@
-image: awescodehub/php7.2-fpm-gitlab
+image: awema/php7.2-fpm-gitlab
 
 cache:
   paths:

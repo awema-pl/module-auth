@@ -25,7 +25,10 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadViewsFrom(__DIR__.'/../views', 'awemapl-auth');
+
+        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'auth');
+
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'awemapl-auth');
 
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
@@ -38,7 +41,7 @@ class AuthServiceProvider extends ServiceProvider
        // $this->bootMigrationsPublishing();
 
         $this->publishes([
-            __DIR__.'/../views' => resource_path('views/vendor/awemapl-auth'),
+            __DIR__.'/../resources/views' => resource_path('views/vendor/awemapl-auth'),
         ], 'views');
 
         Event::subscribe(EventSubscriber::class);
