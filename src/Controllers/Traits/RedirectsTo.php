@@ -31,6 +31,13 @@ trait RedirectsTo
             ?: (property_exists($this, 'redirectTo') ? $this->redirectTo : '/');
     }
 
+    protected function ajaxMessage($message)
+    {
+        return response()->json([
+            'message' => $message
+        ]);
+    }
+    
     protected function ajaxRedirectTo($request)
     {
         return response()->json([

@@ -3,6 +3,7 @@
 namespace AwemaPL\Auth;
 
 use AwemaPL\Auth\Auth;
+use AwemaPL\Auth\Models\Traits\SendsPasswordReset;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
@@ -64,6 +65,8 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerServices();
 
         $this->registerHelpers();
+        
+        SendsPasswordReset::setPasswordResetNotification();
     }
 
     /**

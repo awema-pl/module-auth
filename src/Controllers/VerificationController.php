@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Foundation\Auth\RedirectsUsers;
 use AwemaPL\Auth\Controllers\Traits\RedirectsTo;
 use Illuminate\Auth\Access\AuthorizationException;
+use App\Providers\RouteServiceProvider;
 
 class VerificationController extends Controller
 {
@@ -29,7 +30,7 @@ class VerificationController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
@@ -107,13 +108,13 @@ class VerificationController extends Controller
 
         $request->user()->sendEmailVerificationNotification();
 
-        // return back()->with('resent', true);
+        //return back()->with('resent', true);
     }
 
     protected function isValidCode($stored, $recieved)
     {
-        return !empty($stored) 
-            && $stored['code'] == $recieved 
+        return !empty($stored)
+            && $stored['code'] == $recieved
             && now()->lt($stored['expire']);
     }
 }

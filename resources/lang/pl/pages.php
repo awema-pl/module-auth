@@ -14,5 +14,17 @@ return [
         'meta_description' => 'Logowanie użytkownika do swojego konta',
         'footer-headline' => 'Nie masz konta? <a href=":link_url">:link_name</a>',
         'sign_up' => 'Zarejestruj się',
+    ],
+    'password' =>[
+        'email' => [
+            'headline' => 'Resetowanie hasła',
+            'meta_title'=> 'Resetowanie hasła',
+            'meta_description' => 'Resetowanie hasła użytkownika do systemu',
+        ],
+        'reset' => [
+            'headline' => 'Resetowanie hasła',
+            'meta_title'=> 'Resetowanie hasła',
+            'meta_description' => 'Resetowanie hasła użytkownika do systemu',
+        ]
     ]
 ];

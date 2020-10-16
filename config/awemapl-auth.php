@@ -10,7 +10,7 @@ return [
     'enabled' => [
 //        'social',
 //        'two_factor',
-//        'email_verification'
+        'email_verification'
     ],
 
     /*
@@ -64,7 +64,7 @@ return [
     'redirects' => [
         'login' => '/',
         'register' => '/',
-        'reset_password' => '/',
+        'reset_password' => '/login',
         'social_login' => '/',
         'twofactor_login' => '/',
         'email_verification' => '/',
@@ -74,7 +74,7 @@ return [
 
     'mailables' => [
         // 'email_verification' => AwemaPL\Mail\Mail\EmailConfirmation::class,
-        // 'reset_password' => AwemaPL\Mail\Mail\ResetPassword::class,
+         'reset_password' => AwemaPL\Auth\Notifications\ResetPassword::class,
     ],
 
     /*
