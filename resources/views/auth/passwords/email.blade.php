@@ -16,5 +16,5 @@
 @endsection
 
 @section('footer')
-
+    {!! _p('auth::pages.password.email.footer-headline', '<a href=":link_url">:link_name</a> ', ['link_url' => route('login'), 'link_name' => _p('auth::pages.password.email.back_to_sign_in', 'Back to sign in')]) !!}
 @endsection

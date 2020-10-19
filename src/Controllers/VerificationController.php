@@ -2,6 +2,7 @@
 
 namespace AwemaPL\Auth\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Facades\Session;
@@ -9,20 +10,11 @@ use Illuminate\Foundation\Auth\RedirectsUsers;
 use AwemaPL\Auth\Controllers\Traits\RedirectsTo;
 use Illuminate\Auth\Access\AuthorizationException;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Foundation\Auth\VerifiesEmails;
+use App\Http\Controllers\Controller;
 
 class VerificationController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Email Verification Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller is responsible for handling email verification for any
-    | user that recently registered with the application. Emails may also
-    | be re-sent if the user didn't receive the original email message.
-    |
-    */
-
     use RedirectsUsers, RedirectsTo;
 
     /**
@@ -39,82 +31,91 @@ class VerificationController extends Controller
      */
     public function __construct()
     {
+        $this->middleware('web');
         $this->middleware('auth');
         $this->middleware('signed')->only('verify');
         $this->middleware('throttle:6,1')->only('verify', 'resend');
     }
 
     /**
-     * Show the email verification by code page.
+     * Show the email verification notice.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
     public function show(Request $request)
     {
         return $request->user()->hasVerifiedEmail()
-                        ? redirect($this->redirectPath())
-                        : view('awemapl-auth::auth.verify');
-    }
-
-    public function verifyCode(Request $request)
-    {
-        $code = Session::get('email_verification');
-
-        if (! $this->isValidCode($code, $request->code)) {
-            abort(403, "Verification code is invalid or has been expired");
-        }
-
-        Session::forget('email_verification');
-
-        $request->user()->markEmailAsVerified();
+            ? redirect($this->redirectPath())
+            : view('awemapl-auth::auth.verify');
     }
 
     /**
      * Mark the authenticated user's email address as verified.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     *
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function verify(Request $request)
     {
-        if ($request->route('id') != $request->user()->getKey()) {
+        if (! hash_equals((string) $request->route('id'), (string) $request->user()->getKey())) {
+            throw new AuthorizationException;
+        }
+
+        if (! hash_equals((string) $request->route('hash'), sha1($request->user()->getEmailForVerification()))) {
             throw new AuthorizationException;
         }
 
         if ($request->user()->hasVerifiedEmail()) {
-            return redirect($this->redirectPath());
+            return $request->wantsJson()
+                ? new JsonResponse([], 204)
+                : redirect($this->redirectPath());
         }
 
         if ($request->user()->markEmailAsVerified()) {
             event(new Verified($request->user()));
         }
 
-        return redirect($this->redirectPath())->with('verified', true);
+        if ($response = $this->verified($request)) {
+            return $response;
+        }
+
+        return $request->wantsJson()
+            ? new JsonResponse([], 204)
+            : redirect($this->redirectPath())->with('verified', true);
+    }
+
+    /**
+     * The user has been verified.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return mixed
+     */
+    protected function verified(Request $request)
+    {
+        //
     }
 
     /**
      * Resend the email verification notification.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
      */
     public function resend(Request $request)
     {
         if ($request->user()->hasVerifiedEmail()) {
-            return redirect($this->redirectPath());
+            return $request->wantsJson()
+                ? new JsonResponse([], 204)
+                : redirect($this->redirectPath());
         }
 
         $request->user()->sendEmailVerificationNotification();
 
-        //return back()->with('resent', true);
-    }
-
-    protected function isValidCode($stored, $recieved)
-    {
-        return !empty($stored)
-            && $stored['code'] == $recieved
-            && now()->lt($stored['expire']);
+        return $request->wantsJson()
+            ? $this->ajaxMessage(_p('auth::pages.resent.success_sent_link_email', 'Success sent email with link'))
+            : back()->with('resent', true);
     }
 }

@@ -1,42 +1,30 @@
-@extends('awemapl-auth::layouts.app')
+@extends('indigo-layout::auth2')
+
+@section('meta_title', _p('auth::pages.verify.meta_title', 'Verify Your Email Address') . ' - ' . config('app.name'))
+@section('meta_description', _p('auth::pages.verify.meta_description', 'Verify your email address for full access of user'))
+
+@push('head')
+
+@endpush
+
+@section('title')
+    <h2>{{ _p('auth::pages.verify.headline', 'Verify Your Email Address') }}</h2>
+@endsection
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Verify email by code') }}</div>
-
-                <div class="card-body">
-                    <form method="POST" action="{{ route('verification.code.verify') }}">
-                        @csrf
-
-                        <div class="form-group row">
-                            <label for="code" class="col-md-4 col-form-label text-md-right">{{ __('Code') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="code" type="code" class="form-control{{ $errors->has('code') ? ' is-invalid' : '' }}" name="code" value="{{ old('code') }}" required autofocus>
-
-                                @if ($errors->has('code'))
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('code') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Verify') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
+    @if (session('resent'))
+        <div class="alert alert-success" role="alert">
+            {{ __('A fresh verification link has been sent to your email address.') }}
         </div>
-    </div>
-</div>
+    @endif
+
+    {{ __('Before proceeding, please check your email for a verification link.') }}
+    {{ __('If you did not receive the email') }},
+
+    @include('indigo-layout::auth.verify')
 @endsection
+
+@section('footer')
+    {!! _p('auth::pages.verify.footer-headline', '<a href=":link_url">:link_name</a> ', ['link_url' => route('logout'), 'link_name' => _p('auth::pages.verify.logout', 'Logout')]) !!}
+@endsection
+

@@ -35,7 +35,7 @@ trait SendsPasswordReset
                         'email' => $notifiable->getEmailForPasswordReset(),
                     ], false));
 
-                    return (new MailMessage)
+                    return (new $mailable)
                         ->subject(Lang::get('Reset Password Notification'))
                         ->line(Lang::get('You are receiving this email because we received a password reset request for your account.'))
                         ->action(Lang::get('Reset Password'), $url)

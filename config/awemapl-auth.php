@@ -62,19 +62,19 @@ return [
     |--------------------------------------------------------------------------
     */
     'redirects' => [
-        'login' => '/',
-        'register' => '/',
+        'login' => '/home',
+        'register' => '/email/verify',
         'reset_password' => '/login',
         'social_login' => '/',
         'twofactor_login' => '/',
-        'email_verification' => '/',
+        'email_verification' => '/home',
         'forgot_password' => '/password/reset',
         'twofactor' => '/',
     ],
 
     'mailables' => [
-        // 'email_verification' => AwemaPL\Mail\Mail\EmailConfirmation::class,
-         'reset_password' => AwemaPL\Auth\Notifications\ResetPassword::class,
+         'email_verification' => AwemaPL\Auth\Mail\MailMessage::class,
+         'reset_password' => AwemaPL\Auth\Mail\MailMessage::class,
     ],
 
     /*

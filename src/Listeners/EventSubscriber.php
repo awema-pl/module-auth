@@ -10,7 +10,7 @@ class EventSubscriber
     public function subscribe($events)
     {
         $events->listen(
-            'Illuminate\Auth\Events\Registered', 
+            'Illuminate\Auth\Events\Registered',
             static::class.'@handleRegistered'
         );
     }

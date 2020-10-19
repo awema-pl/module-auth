@@ -232,21 +232,16 @@ class Auth implements AuthContract
         $this->router->get(
             'email/verify', 
             '\AwemaPL\Auth\Controllers\VerificationController@show'
-        )->name('verification.code');
-
-        $this->router->post(
-            'email/verify', 
-            '\AwemaPL\Auth\Controllers\VerificationController@verifyCode'
-        )->name('verification.code.verify');
+        )->name('verification.notice');
 
         $this->router->get(
-            'email/verify/{id}', 
+            'email/verify/{id}/{hash}',
             '\AwemaPL\Auth\Controllers\VerificationController@verify'
         )->name('verification.verify');
 
-        $this->router->get(
+        $this->router->post(
             'email/resend', 
             '\AwemaPL\Auth\Controllers\VerificationController@resend'
-        )->name('verification.resend')->middleware('throttle:1,0.2');
+        )->name('verification.resend')->middleware(['web', 'throttle:1,0.2']);
     }
 }

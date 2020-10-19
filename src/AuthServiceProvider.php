@@ -3,8 +3,11 @@
 namespace AwemaPL\Auth;
 
 use AwemaPL\Auth\Auth;
+use AwemaPL\Auth\Middlewares\EnsureEmailIsVerified;
+use AwemaPL\Auth\Models\Traits\SendsEmailVerification;
 use AwemaPL\Auth\Models\Traits\SendsPasswordReset;
 use GuzzleHttp\Client;
+use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use AwemaPL\Auth\Services\AuthyTwoFactor;
@@ -26,6 +29,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        app('router')->aliasMiddleware('verified', EnsureEmailIsVerified::class);
 
         $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'auth');
 
@@ -67,6 +72,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerHelpers();
         
         SendsPasswordReset::setPasswordResetNotification();
+        SendsEmailVerification::setSendEmailVerificationNotification();
     }
 
     /**

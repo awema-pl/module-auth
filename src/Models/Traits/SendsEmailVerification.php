@@ -2,6 +2,10 @@
 
 namespace AwemaPL\Auth\Models\Traits;
 
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Auth\Notifications\VerifyEmail;
@@ -15,47 +19,36 @@ trait SendsEmailVerification
      */
     public function sendEmailVerificationNotification()
     {
-        $code = $this->generateVerificationCode();
-
-        $expire = now()->addMinutes(60);
-
-        if ($mailable = config('awemapl-auth.mailables.email_verification')) {
-
-            VerifyEmail::toMailUsing(
-                function ($notifiable) use ($mailable, $code, $expire) {
-    
-                    $url = URL::temporarySignedRoute(
-                        'verification.verify', 
-                        $expire, 
-                        ['id' => $notifiable->getKey()]
-                    );
-    
-                    return (new $mailable($code, $url))
-                        ->to($notifiable->email);
-                }
-            );
+        if (!self::setSendEmailVerificationNotification()) {
+            $this->notify(new VerifyEmail);
         }
-        Session::put(
-            'email_verification', 
-            ['code' => $code, 'expire' => $expire]
-        );
-
-        $this->notify(new VerifyEmail);
     }
 
-    /**
-     * Generate six digits verification code
-     *
-     * @throws \Exception
-     */
-    public function generateVerificationCode()
+    public static function setSendEmailVerificationNotification()
     {
-        $code = '';
+        if ($mailable = config('awemapl-auth.mailables.email_verification')) {
+            VerifyEmail::toMailUsing(
+                function ($notifiable) use ($mailable) {
 
-        for ($i = 0; $i < 6; $i++) {
-            $code .= random_int(0, 9);
+                    $verificationUrl = URL::temporarySignedRoute(
+                        'verification.verify',
+                        Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
+                        [
+                            'id' => $notifiable->getKey(),
+                            'hash' => sha1($notifiable->getEmailForVerification()),
+                        ]
+                    );
+                    return (new $mailable)
+                        ->subject(Lang::get('Verify Email Address'))
+                        ->line(Lang::get('Please click the button below to verify your email address.'))
+                        ->action(Lang::get('Verify Email Address'), $verificationUrl)
+                        ->line(Lang::get('If you did not create an account, no further action is required.'))
+                        ->markdown('awemapl-auth::email')
+                        ->theme('awemapl-auth::mail.themes.default');;
+                }
+            );
+            return true;
         }
-
-        return $code;
+        return false;
     }
 }

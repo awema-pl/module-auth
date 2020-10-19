@@ -1,14 +1,14 @@
 @extends('indigo-layout::auth2')
 
-@section('meta_title', _p('auth::pages.login.meta_title', 'Logowanie') . ' - ' . config('app.name'))
-@section('meta_description', _p('auth::pages.login.meta_description', 'Logowanie użytkownika do systemu'))
+@section('meta_title', _p('auth::pages.login.meta_title', 'Sign in') . ' - ' . config('app.name'))
+@section('meta_description', _p('auth::pages.login.meta_description', 'Sign in user to system'))
 
 @push('head')
 
 @endpush
 
 @section('title')
-    <h2>{{ _p('auth::pages.login.headline', 'Logowanie') }}</h2>
+    <h2>{{ _p('auth::pages.login.headline', 'Sign in') }}</h2>
 @endsection
 
 @section('content')

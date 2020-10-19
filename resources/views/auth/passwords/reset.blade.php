@@ -15,6 +15,6 @@
     @include('indigo-layout::auth.passwords.reset')
 @endsection
 
-@section('footer')
+{{--@section('footer')--}}
 
-@endsection
+{{--@endsection--}}

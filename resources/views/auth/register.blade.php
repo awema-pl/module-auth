@@ -1,7 +1,7 @@
 @extends('indigo-layout::auth2')
 
 @section('meta_title', _p('auth::pages.register.meta_title', 'Create an Account') . ' - ' . config('app.name'))
-@section('meta_description', _p('auth::pages.register.meta_description', 'Awema Platform Demo'))
+@section('meta_description', _p('auth::pages.register.meta_description', 'Sign up user to system'))
 
 @push('head')
 
