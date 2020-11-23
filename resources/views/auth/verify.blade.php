@@ -19,12 +19,11 @@
     @endif
 
     {{ __('Before proceeding, please check your email for a verification link.') }}
-    {{ __('If you did not receive the email') }},
 
     @include('indigo-layout::auth.verify')
 @endsection
 
 @section('footer')
-    {!! _p('auth::pages.verify.footer-headline', '<a href=":link_url">:link_name</a> ', ['link_url' => route('logout'), 'link_name' => _p('auth::pages.verify.logout', 'Logout')]) !!}
+    {!! _p('auth::pages.verify.footer-headline', '<a href=":link_url" class="awema-spa-ignore">:link_name</a> ', ['link_url' => route('logout'), 'link_name' => _p('auth::pages.verify.logout', 'Logout')]) !!}
 @endsection
 

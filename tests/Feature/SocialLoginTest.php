@@ -4,7 +4,7 @@ namespace AwemaPL\Auth\Tests\Feature;
 
 use AwemaPL\Auth\Tests\TestCase;
 use AwemaPL\Auth\Tests\Stubs\User;
-use AwemaPL\Auth\Repositories\Contracts\UserRepository;
+use AwemaPL\Auth\Sections\Users\Repositories\Contracts\UserRepository;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use AwemaPL\Auth\Services\Contracts\SocialProvidersManager;
 

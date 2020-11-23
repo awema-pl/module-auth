@@ -83,4 +83,109 @@ return [
     |--------------------------------------------------------------------------
     */
     'with_register' => true,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Installation application.
+    |--------------------------------------------------------------------------
+    */
+    'installation' => [
+        // Add first user - section `user`
+        'sections' => ['user'],
+
+        // except for redirect to installation
+        'expect' => [
+
+            'routes' => [
+                'register',
+                'module-assets.assets',
+                'auth.installation.user.register'
+            ]
+        ]
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Verification e-mail users.
+    |--------------------------------------------------------------------------
+    */
+    'verification' => [
+        // except for redirect to verification
+        'expect' => [
+
+            'routes' => [
+                'verification.notice',
+                'module-assets.assets',
+                'verification.verify',
+                'verification.resend',
+                'logout',
+            ]
+        ]
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Laravel application tables
+    |--------------------------------------------------------------------------
+    */
+    'tables' =>[
+        'users' => 'users',
+        'plain_tokens' =>'auth_plain_tokens'
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Additional routes in Auth module
+    |--------------------------------------------------------------------------
+    */
+    'routes' => [
+        'user' => [
+            'active' => true,
+            'prefix' => '/admin/auth/users',
+            'name_prefix' => 'auth.user.',
+            'middleware' => [
+                'web',
+                'auth',
+                'can:manage_users'
+            ]
+        ],
+        'token' => [
+            'active' => true,
+            'prefix' => '/admin/auth/tokens',
+            'name_prefix' => 'auth.token.',
+            'middleware' => [
+                'web',
+                'auth',
+                'can:manage_tokens'
+            ]
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Use permissions in application.
+    |--------------------------------------------------------------------------
+    |
+    | This permission has been insert to database with migrations
+    | of module permission.
+    |
+    */
+    'permissions' =>[
+        'manage_tokens','manage_users',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Can merge permissions to module permission
+    |--------------------------------------------------------------------------
+    */
+    'merge_permissions' => true,
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Default name token
+    |--------------------------------------------------------------------------
+    */
+    'default_name_token' => 'global',
 ];

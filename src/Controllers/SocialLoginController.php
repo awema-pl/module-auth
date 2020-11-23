@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\RedirectsUsers;
 use AwemaPL\Auth\Controllers\Traits\RedirectsTo;
-use AwemaPL\Auth\Repositories\Contracts\UserRepository;
+use AwemaPL\Auth\Sections\Users\Repositories\Contracts\UserRepository;
 use AwemaPL\Auth\Services\Contracts\SocialProvidersManager;
 use AwemaPL\Auth\Controllers\Traits\AuthenticatesUsersWith2FA;
 
@@ -17,7 +17,7 @@ class SocialLoginController extends Controller
     /**
      * User repository
      *
-     * @var \AwemaPL\Auth\Repositories\Contracts\UserRepository
+     * @var \AwemaPL\Auth\Sections\Users\Repositories\Contracts\UserRepository
      */
     protected $users;
 

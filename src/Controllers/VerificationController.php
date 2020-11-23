@@ -115,7 +115,7 @@ class VerificationController extends Controller
         $request->user()->sendEmailVerificationNotification();
 
         return $request->wantsJson()
-            ? $this->ajaxMessage(_p('auth::pages.resent.success_sent_link_email', 'Success sent email with link'))
+            ? $this->ajaxMessage(_p('auth::notifies.resent.success_sent_link_email', 'Success sent email with link'))
             : back()->with('resent', true);
     }
 }

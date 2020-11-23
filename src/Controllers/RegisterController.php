@@ -3,11 +3,12 @@
 namespace AwemaPL\Auth\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use AwemaPL\Auth\Controllers\Traits\RedirectsTo;
-use AwemaPL\Auth\Repositories\Contracts\UserRepository;
+use AwemaPL\Auth\Sections\Users\Repositories\Contracts\UserRepository;
 
 class RegisterController extends Controller
 {

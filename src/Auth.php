@@ -5,6 +5,11 @@ namespace AwemaPL\Auth;
 use Illuminate\Routing\Router;
 use AwemaPL\Auth\Contracts\Auth as AuthContract;
 use AwemaPL\Auth\Middlewares\SocialAuthentication;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Str;
+use Exception;
 
 class Auth implements AuthContract
 {
@@ -47,6 +52,20 @@ class Auth implements AuthContract
         if ($this->isEmailVerificationEnabled()) {
             $this->emailVerificationRoutes();
         }
+
+        // Installation user Routes...
+        if ($this->isInstallationUserEnabled() && !$this->isExistUserInDatabase()){
+            $this->installationUserRoutes();
+        }
+
+        if ($this->isActiveUserRoutes()) {
+            $this->userRoutes();
+        }
+
+        if ($this->isActiveTokenRoutes()) {
+            $this->tokenRoutes();
+        }
+
     }
 
     /**
@@ -77,6 +96,16 @@ class Auth implements AuthContract
     public function isEmailVerificationEnabled()
     {
         return in_array('email_verification', config('awemapl-auth.enabled'));
+    }
+
+    /**
+     * Check if installtion user eneabled in config
+     *
+     * @return boolean
+     */
+    public function isInstallationUserEnabled()
+    {
+        return in_array('user', config('awemapl-auth.installation.sections'));
     }
 
     /**
@@ -244,4 +273,176 @@ class Auth implements AuthContract
             '\AwemaPL\Auth\Controllers\VerificationController@resend'
         )->name('verification.resend')->middleware(['web', 'throttle:1,0.2']);
     }
+
+    /**
+     * Add installation user routes
+     */
+    public function installationUserRoutes()
+    {
+        $this->router->get(
+            'installation/auth/user',
+            '\AwemaPL\Auth\Controllers\Installation\UserController@showRegisterForm'
+        )->name('auth.installation.user.register');
+    }
+
+    /**
+     * Check is exist user in database
+     *
+     * @return bool
+     */
+    public function isExistUserInDatabase()
+    {
+        try {
+            $class= config('auth.providers.users.model');
+            return !!$class::count();
+        } catch (Exception $e){}
+        return false;
+    }
+
+    /**
+     * Register user has API tokens
+     *
+     * @throws \ReflectionException
+     */
+    public function registerUserHasApiTokens()
+    {
+        $userClass = config('auth.providers.users.model');
+        if (!method_exists($userClass, 'tokens')) {
+            $reflector = new \ReflectionClass($userClass);
+            $path= $reflector->getFileName();
+            $content = File::get($path);
+            if (!Str::contains($content, 'use \Laravel\Sanctum\HasApiTokens;')){
+                $content = Str::replaceFirst('{', '{' . PHP_EOL . PHP_EOL . "\t" . 'use \Laravel\Sanctum\HasApiTokens;', $content);
+                File::put($path, $content);
+            }
+        }
+    }
+
+    /**
+     * Add permissions for module permission
+     */
+    public function mergePermissions()
+    {
+        if ($this->canMergePermissions()){
+            $subscriptionPermissions = config('awemapl-auth.permissions');
+            $tempPermissions = config('temp_permission.permissions', []);
+            $permissions = array_merge_recursive($tempPermissions, $subscriptionPermissions);
+            config(['temp_permission.permissions' => $permissions]);
+        }
+    }
+
+    /**
+     * Can merge permissions
+     *
+     * @return boolean
+     */
+    private function canMergePermissions()
+    {
+        return !!config('awemapl-auth.merge_permissions');
+    }
+
+    /**
+     * Is active user routes
+     *
+     * @return \Illuminate\Config\Repository|\Illuminate\Contracts\Foundation\Application|mixed
+     */
+    private function isActiveUserRoutes()
+    {
+        return config('awemapl-auth.routes.user.active');
+    }
+
+    /**
+     * Is active token routes
+     *
+     * @return \Illuminate\Config\Repository|\Illuminate\Contracts\Foundation\Application|mixed
+     */
+    private function isActiveTokenRoutes()
+    {
+        return config('awemapl-auth.routes.token.active');
+    }
+
+
+    /**
+     * User routes
+     */
+    protected function userRoutes()
+    {
+
+        $prefix = config('awemapl-auth.routes.user.prefix');
+        $namePrefix = config('awemapl-auth.routes.user.name_prefix');
+        $middleware = config('awemapl-auth.routes.user.middleware');
+        $this->router->prefix($prefix)->name($namePrefix)->middleware($middleware)->group(function () {
+            $this->router
+                ->get('/', '\AwemaPL\Auth\Sections\Users\Http\Controllers\UserController@index')
+                ->name('index');
+            $this->router
+                ->post('/', '\AwemaPL\Auth\Sections\Users\Http\Controllers\UserController@store')
+                ->name('store');
+            $this->router
+                ->get('/users', '\AwemaPL\Auth\Sections\Users\Http\Controllers\UserController@scope')
+                ->name('scope');
+            $this->router
+                ->patch('{id?}', '\AwemaPL\Auth\Sections\Users\Http\Controllers\UserController@update')
+                ->name('update');
+            $this->router
+                ->patch('/change-password/{id?}', '\AwemaPL\Auth\Sections\Users\Http\Controllers\UserController@changePassword')
+                ->name('change_password');
+            $this->router
+                ->delete('{id?}', '\AwemaPL\Auth\Sections\Users\Http\Controllers\UserController@delete')
+                ->name('delete');
+        });
+    }
+
+    /**
+     * Token routes
+     */
+    protected function tokenRoutes()
+    {
+
+        $prefix = config('awemapl-auth.routes.token.prefix');
+        $namePrefix = config('awemapl-auth.routes.token.name_prefix');
+        $middleware = config('awemapl-auth.routes.token.middleware');
+        $this->router->prefix($prefix)->name($namePrefix)->middleware($middleware)->group(function () {
+            $this->router
+                ->get('/', '\AwemaPL\Auth\Sections\Tokens\Http\Controllers\TokenController@index')
+                ->name('index');
+            $this->router
+                ->post('/', '\AwemaPL\Auth\Sections\Tokens\Http\Controllers\TokenController@store')
+                ->name('store');
+            $this->router
+                ->get('/tokens', '\AwemaPL\Auth\Sections\Tokens\Http\Controllers\TokenController@scope')
+                ->name('scope');
+            $this->router
+                ->patch('change/{id?}', '\AwemaPL\Auth\Sections\Tokens\Http\Controllers\TokenController@change')
+                ->name('change');
+            $this->router
+                ->delete('{id?}', '\AwemaPL\Auth\Sections\Tokens\Http\Controllers\TokenController@delete')
+                ->name('delete');
+        });
+    }
+
+
+    /**
+     * Menu merge in navigation
+     */
+    public function menuMerge()
+    {
+        if ($this->canMergeMenu()) {
+            $chromatorNav = config('auth-menu.navs', []);
+            $navTemp = config('temp_navigation.navs', []);
+            $nav = array_merge_recursive($navTemp, $chromatorNav);
+            config(['temp_navigation.navs' => $nav]);
+        }
+    }
+
+    /**
+     * Can merge menu
+     *
+     * @return boolean
+     */
+    private function canMergeMenu()
+    {
+        return !!config('auth-menu.merge_to_navigation');
+    }
+
 }

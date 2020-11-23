@@ -47,8 +47,23 @@ trait RedirectsTo
         ]);
     }
 
+    protected function ajaxShowModal($modalName, $storeDataParam, $storeData)
+    {
+        return response()->json([
+            'showModal' => [
+                'modalName' => $modalName,
+                'storeDataParam' => $storeDataParam,
+                'storeData' => $storeData,
+            ]
+        ]);
+    }
+
     protected function getRedirectToUrl()
     {
-        return config('awemapl-auth.redirects.' . $this->redirectMappings[get_class($this)]);
+        $url = $this->redirectMappings[get_class($this)] ?? null;
+        if (!$url){
+            return '/';
+        }
+        return config('awemapl-auth.redirects.' .$url) ;
     }
 }

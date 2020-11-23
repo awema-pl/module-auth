@@ -6,7 +6,7 @@ use AwemaPL\Auth\Tests\TestCase;
 use AwemaPL\Auth\Tests\Stubs\User;
 use Illuminate\Support\Facades\DB;
 use Laravel\Socialite\Two\User as SocialUser;
-use AwemaPL\Auth\Repositories\EloquentUserRepository;
+use AwemaPL\Auth\Sections\Users\Repositories\EloquentUserRepository;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
 class UserRepositoryTest extends TestCase

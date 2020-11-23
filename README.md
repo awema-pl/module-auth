@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://www.awema.pl/?utm_source=github&utm_medium=auth" target="_blank" rel="noopener noreferrer">
-        <img width="100" src="/assets/awema-pl/auth/promo/Logo_sign_color.svg" alt="Awema.pl logo">
+        <img width="100" src="/assets/awema-pl/auth/img/promo/Logo_sign_color.svg" alt="Awema.pl logo">
     </a>
 </p>
 
@@ -10,13 +10,13 @@
 
 <p align="center">
     <a href="https://www.awema.pl/?utm_source=github&amp;utm_medium=shields">
-        <img src="https://repo.awema.pl/4GBWO/awema-pl/module-auth/badges/master/coverage.svg" alt="Coverage report" >
+        <img src="https://repo.awema.pl/4GBWO/awema-pl/module-auth/img/badges/master/coverage.svg" alt="Coverage report" >
     </a>
     <a href="https://www.awema.pl/?utm_source=github&amp;utm_medium=shields">
         <img src="https://www.awema.pl/4GBWO/awema-pl/module-auth/version.svg" alt="Last version" >
     </a>
     <a href="https://www.awema.pl/?utm_source=github&amp;utm_medium=shields">
-        <img src="https://repo.awema.pl/4GBWO/awema-pl/module-auth/badges/master/build.svg" alt="Build status" >
+        <img src="https://repo.awema.pl/4GBWO/awema-pl/module-auth/img/badges/master/build.svg" alt="Build status" >
     </a>
     <a href="https://www.awema.pl/?utm_source=github&amp;utm_medium=shields">
         <img src="https://www.awema.pl/4GBWO/awema-pl/module-auth/downloads.svg" alt="Downloads" >
@@ -28,7 +28,7 @@
         <img src="https://www.awema.pl/4GBWO/awema-pl/module-auth/status.svg" alt="CDN Ready" /> 
     </a>
     <a href="https://www.awema.pl/?utm_source=github&amp;utm_medium=shields" target="_blank">
-        <img src="/assets/awema-pl/auth/badges/laravel.svg" alt="laravel" />
+        <img src="/assets/awema-pl/auth/img/badges/laravel.svg" alt="laravel" />
     </a>
     <a href="https://www.awema.pl/?utm_source=github&amp;utm_medium=shields">
         <img src="https://img.shields.io/github/last-commit/awema-pl/module-auth.svg" alt="Last commit" />
@@ -40,13 +40,13 @@
         <img src="https://www.awema.pl/badges/hosted.svg" alt="Hosted by Package Kit" />
     </a>
     <a href="https://www.patreon.com/join/awemadotio">
-        <img src="/assets/awema-pl/auth/badges/patreon.svg" alt="Patreon" />
+        <img src="/assets/awema-pl/auth/img/badges/patreon.svg" alt="Patreon" />
     </a>
 </p>
 
 ##
 <p align="center">
-    <img src="/assets/awema-pl/auth/github/auth-cover.gif" alt="Laravel Authentication" title="Awema.pl Authentication" />
+    <img src="/assets/awema-pl/auth/img/github/auth-cover.gif" alt="Laravel Authentication" title="Awema.pl Authentication" />
 </p>
 
 
