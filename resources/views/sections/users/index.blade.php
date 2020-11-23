@@ -74,7 +74,7 @@
 @endsection
 
 @section('modals')
-    <modal-window name="create" class="modal_formbuilder" title="{{ _p('auth::pages.user.create_user', 'Create user') }}">
+    <content-window name="create" class="modal_formbuilder" title="{{ _p('auth::pages.user.create_user', 'Create user') }}">
         <form-builder url="{{ route('auth.user.store') }}" @sended="AWEMA.emit('content::users_table:update')">
             <div class="grid">
                 <div class="cell">
@@ -86,9 +86,9 @@
                 </div>
             </div>
         </form-builder>
-    </modal-window>
+    </content-window>
 
-    <modal-window name="edit_user" class="modal_formbuilder" title="{{ _p('auth::pages.user.edit_user', 'Edit user') }}">
+    <content-window name="edit_user" class="modal_formbuilder" title="{{ _p('auth::pages.user.edit_user', 'Edit user') }}">
         <form-builder url="{{ route('auth.user.update') }}/{id}" method="patch"
                       @sended="AWEMA.emit('content::users_table:update')"
                       send-text="{{ _p('auth::pages.user.save', 'Save') }}" store-data="editUser">
@@ -99,9 +99,9 @@
                 </div>
             </div>
         </form-builder>
-    </modal-window>
+    </content-window>
 
-    <modal-window name="change_password_user" class="modal_formbuilder" title="{{ _p('auth::pages.user.change_password', 'Change password') }}">
+    <content-window name="change_password_user" class="modal_formbuilder" title="{{ _p('auth::pages.user.change_password', 'Change password') }}">
         <form-builder url="{{ route('auth.user.change_password') }}/{id}" method="patch"
                       @sended="AWEMA.emit('content::users_table:update')"
                       send-text="{{ _p('auth::pages.user.change', 'Change') }}" store-data="changePasswordUser">
@@ -112,14 +112,14 @@
                 </div>
             </div>
         </form-builder>
-    </modal-window>
+    </content-window>
 
-    <modal-window name="delete_user" class="modal_formbuilder" title="{{  _p('auth::pages.user.are_you_sure_delete', 'Are you sure delete?') }}">
+    <content-window name="delete_user" class="modal_formbuilder" title="{{  _p('auth::pages.user.are_you_sure_delete', 'Are you sure delete?') }}">
         <form-builder :edited="true" url="{{route('auth.user.delete') }}/{id}" method="delete"
                       @sended="AWEMA.emit('content::users_table:update')"
                       send-text="{{ _p('auth::pages.user.confirm', 'Confirm') }}" store-data="deleteUser"
                       disabled-dialog>
 
         </form-builder>
-    </modal-window>
+    </content-window>
 @endsection

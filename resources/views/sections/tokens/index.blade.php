@@ -79,7 +79,7 @@
 
 @section('modals')
 
-    <modal-window name="create" class="modal_formbuilder" title="{{ _p('auth::pages.token.create_token', 'Create token') }}">
+    <content-window name="create" class="modal_formbuilder" title="{{ _p('auth::pages.token.create_token', 'Create token') }}">
         <form-builder url="{{ route('auth.token.store') }}" @sended="AWEMA.emit('content::tokens_table:update')"
                       send-text="{{ _p('auth::pages.token.create', 'Utwórz') }}">
             <div class="grid">
@@ -91,30 +91,30 @@
                 </div>
             </div>
         </form-builder>
-    </modal-window>
+    </content-window>
 
-    <modal-window name="show_token" class="modal_formbuilder" title="{{  _p('auth::pages.token.token', 'Token') }}">
+    <content-window name="show_token" class="modal_formbuilder" title="{{  _p('auth::pages.token.token', 'Token') }}">
         <form-builder :edited="true" url="" @send="AWEMA.emit('modal::show_token:close');" :hide-cancel-button="true"
                       send-text="{{ _p('auth::pages.token.close', 'Close') }}" store-data="showToken"
                       disabled-dialog>
             <fb-input name="plain_token" label="{{ _p('auth::pages.token.token', 'Token') }}" readonly></fb-input>
         </form-builder>
-    </modal-window>
+    </content-window>
 
-    <modal-window name="change_token" class="modal_formbuilder" title="{{  _p('auth::pages.token.are_you_sure_change', 'Are you sure change?') }}">
+    <content-window name="change_token" class="modal_formbuilder" title="{{  _p('auth::pages.token.are_you_sure_change', 'Are you sure change?') }}">
         <form-builder :edited="true" url="{{route('auth.token.change') }}/{id}" method="patch"
                       @sended="AWEMA.emit('content::tokens_table:update')"
                       send-text="{{ _p('auth::pages.token.confirm', 'Confirm') }}" store-data="changeToken"
                       disabled-dialog>
         </form-builder>
-    </modal-window>
+    </content-window>
 
-    <modal-window name="delete_token" class="modal_formbuilder" title="{{  _p('auth::pages.token.are_you_sure_delete', 'Are you sure delete?') }}">
+    <content-window name="delete_token" class="modal_formbuilder" title="{{  _p('auth::pages.token.are_you_sure_delete', 'Are you sure delete?') }}">
         <form-builder :edited="true" url="{{route('auth.token.delete') }}/{id}" method="delete"
                       @sended="AWEMA.emit('content::tokens_table:update')"
                       send-text="{{ _p('auth::pages.token.confirm', 'Confirm') }}" store-data="deleteToken"
                       disabled-dialog>
 
         </form-builder>
-    </modal-window>
+    </content-window>
 @endsection
