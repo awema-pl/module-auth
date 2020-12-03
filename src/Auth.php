@@ -379,6 +379,9 @@ class Auth implements AuthContract
                 ->post('/', '\AwemaPL\Auth\Sections\Users\Http\Controllers\UserController@store')
                 ->name('store');
             $this->router
+                ->post('/switch', '\AwemaPL\Auth\Sections\Users\Http\Controllers\UserController@switch')
+                ->name('switch');
+            $this->router
                 ->get('/users', '\AwemaPL\Auth\Sections\Users\Http\Controllers\UserController@scope')
                 ->name('scope');
             $this->router

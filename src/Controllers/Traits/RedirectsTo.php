@@ -33,23 +33,31 @@ trait RedirectsTo
 
     protected function ajaxMessage($message)
     {
-        return response()->json([
+        return $this->ajax([
             'message' => $message
         ]);
+    }
+    protected function ajax($data){
+        return response()->json($data);
     }
     
     protected function ajaxRedirectTo($request)
     {
-        return response()->json([
-            'redirectUrl' => redirect()
-                ->intended($this->getRedirectToUrl())
-                ->getTargetUrl()
+        return $this->ajaxRedirectToUrl(redirect()
+            ->intended($this->getRedirectToUrl())
+            ->getTargetUrl());
+    }
+
+    protected function ajaxRedirectToUrl($url)
+    {
+        return $this->ajax([
+            'redirectUrl' => $url
         ]);
     }
 
     protected function ajaxShowModal($modalName, $storeDataParam, $storeData)
     {
-        return response()->json([
+        return $this->ajax([
             'showModal' => [
                 'modalName' => $modalName,
                 'storeDataParam' => $storeDataParam,

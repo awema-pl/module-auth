@@ -70,7 +70,9 @@ return [
         "no" => "No",
         "password" => "Password",
         "confirm_password" => "Confirm password",
-        "change_password" => "Change password"
+        "change_password" => "Change password",
+        "switch_user" => "Switch to user",
+        "are_you_sure_switch" => "Are you sure switch?"
     ],
     "token" => [
         "meta_title" => "API tokens",

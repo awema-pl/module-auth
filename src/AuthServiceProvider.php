@@ -16,6 +16,7 @@ use GuzzleHttp\Client;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use AwemaPL\Auth\Services\AuthyTwoFactor;
 use AwemaPL\Auth\Listeners\EventSubscriber;

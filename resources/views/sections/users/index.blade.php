@@ -51,6 +51,9 @@
                                             <cm-button @click="AWEMA._store.commit('setData', {param: 'changePasswordUser', data: col.data}); AWEMA.emit('modal::change_password_user:open')">
                                                 {{_p('auth::pages.user.change_password', 'Change password')}}
                                             </cm-button>
+                                            <cm-button @click="AWEMA._store.commit('setData', {param: 'switchUser', data: col.data}); AWEMA.emit('modal::switch_user:open')">
+                                                {{_p('auth::pages.user.switch_user', 'Switch to user')}}
+                                            </cm-button>
                                             <cm-button @click="AWEMA._store.commit('setData', {param: 'deleteUser', data: col.data}); AWEMA.emit('modal::delete_user:open')">
                                                 {{_p('auth::pages.user.delete', 'Delete')}}
                                             </cm-button>
@@ -113,7 +116,13 @@
             </div>
         </form-builder>
     </modal-window>
-
+    <modal-window name="switch_user" class="modal_formbuilder" title="{{  _p('auth::pages.user.are_you_sure_switch', 'Are you sure switch?') }}">
+        <form-builder :edited="true" url="{{route('auth.user.switch') }}" method="post"
+                      send-text="{{ _p('auth::pages.user.confirm', 'Confirm') }}" store-data="switchUser"
+                      disabled-dialog>
+                <fb-input name="id" type="hidden"></fb-input>
+        </form-builder>
+    </modal-window>
     <modal-window name="delete_user" class="modal_formbuilder" title="{{  _p('auth::pages.user.are_you_sure_delete', 'Are you sure delete?') }}">
         <form-builder :edited="true" url="{{route('auth.user.delete') }}/{id}" method="delete"
                       @sended="AWEMA.emit('content::users_table:update')"

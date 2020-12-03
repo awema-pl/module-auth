@@ -24,6 +24,9 @@ use Illuminate\Support\Str;
 class UserController extends Controller
 {
 
+    use RedirectsTo;
+
+
     /**
      * Users repository instance
      *
@@ -106,6 +109,19 @@ class UserController extends Controller
         return notify(_p('auth::notifies.users.success_changed_password_user', 'Success changed password user.'));
     }
 
+    /**
+     * Switch user
+     *
+     * @param StoreUser $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function switch(Request $request)
+    {
+        Auth::loginUsingId($request->id, true);
+        return $this->ajaxRedirectTo($request);
+    }
+    
     /**
      * Delete user
      *

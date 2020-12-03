@@ -68,6 +68,8 @@ return [
         'are_you_sure_delete'=>'Czy na pewno usunąć?',
         'confirm' =>'Potwierdź',
         'save' => 'Zapisz',
+        'switch_user' =>'Przełącz na użytkownika',
+        'are_you_sure_switch'=>'Czy na pewno przełączyć?',
     ],
     'token' => [
         'meta_title' => 'Tokeny API',
