@@ -160,25 +160,27 @@ class Auth implements AuthContract
      */
     protected function resetPasswordRoutes()
     {
-        $this->router->get(
-            'password/reset',
-            '\AwemaPL\Auth\Controllers\ForgotPasswordController@showLinkRequestForm'
-        )->name('password.request');
+        $this->router->middleware(['web'])->group(function(){
+            $this->router->get(
+                'password/reset',
+                '\AwemaPL\Auth\Controllers\ForgotPasswordController@showLinkRequestForm'
+            )->name('password.request');
 
-        $this->router->post(
-            'password/email',
-            '\AwemaPL\Auth\Controllers\ForgotPasswordController@sendResetLinkEmail'
-        )->name('password.email');
+            $this->router->post(
+                'password/email',
+                '\AwemaPL\Auth\Controllers\ForgotPasswordController@sendResetLinkEmail'
+            )->name('password.email');
 
-        $this->router->get(
-            'password/reset/{token}',
-            '\AwemaPL\Auth\Controllers\ResetPasswordController@showResetForm'
-        )->name('password.reset');
+            $this->router->get(
+                'password/reset/{token}',
+                '\AwemaPL\Auth\Controllers\ResetPasswordController@showResetForm'
+            )->name('password.reset');
 
-        $this->router->post(
-            'password/reset',
-            '\AwemaPL\Auth\Controllers\ResetPasswordController@reset'
-        )->name('password.update');
+            $this->router->post(
+                'password/reset',
+                '\AwemaPL\Auth\Controllers\ResetPasswordController@reset'
+            )->name('password.update');
+        });
     }
 
     /**
@@ -188,7 +190,7 @@ class Auth implements AuthContract
      */
     protected function socialiteRoutes()
     {
-        $this->router->middleware(['guest', SocialAuthentication::class])
+        $this->router->middleware(['web','guest', SocialAuthentication::class])
             ->group(function () {
 
                 $this->router->get(
@@ -211,7 +213,7 @@ class Auth implements AuthContract
     protected function twoFactorRoutes()
     {
         // Setting up and verifying 2FA routes
-        $this->router->middleware(['auth'])
+        $this->router->middleware(['web','auth'])
             ->group(function () {
 
                 $this->router->get(
@@ -236,7 +238,7 @@ class Auth implements AuthContract
             });
 
         // 2FA login routes
-        $this->router->middleware(['guest'])
+        $this->router->middleware(['web','guest'])
             ->group(function () {
 
                 $this->router->get(
@@ -258,20 +260,22 @@ class Auth implements AuthContract
      */
     protected function emailVerificationRoutes()
     {
-        $this->router->get(
-            'email/verify', 
-            '\AwemaPL\Auth\Controllers\VerificationController@show'
-        )->name('verification.notice');
+        $this->router->middleware(['web'])->group(function(){
+            $this->router->get(
+                'email/verify',
+                '\AwemaPL\Auth\Controllers\VerificationController@show'
+            )->name('verification.notice');
 
-        $this->router->get(
-            'email/verify/{id}/{hash}',
-            '\AwemaPL\Auth\Controllers\VerificationController@verify'
-        )->name('verification.verify');
+            $this->router->get(
+                'email/verify/{id}/{hash}',
+                '\AwemaPL\Auth\Controllers\VerificationController@verify'
+            )->name('verification.verify');
 
-        $this->router->post(
-            'email/resend', 
-            '\AwemaPL\Auth\Controllers\VerificationController@resend'
-        )->name('verification.resend')->middleware(['web', 'throttle:1,0.2']);
+            $this->router->post(
+                'email/resend',
+                '\AwemaPL\Auth\Controllers\VerificationController@resend'
+            )->name('verification.resend')->middleware(['web', 'throttle:1,0.2']);
+        });
     }
 
     /**
@@ -279,10 +283,12 @@ class Auth implements AuthContract
      */
     public function installationUserRoutes()
     {
-        $this->router->get(
-            'installation/auth/user',
-            '\AwemaPL\Auth\Controllers\Installation\UserController@showRegisterForm'
-        )->name('auth.installation.user.register');
+        $this->router->middleware(['web'])->group(function(){
+            $this->router->get(
+                'installation/auth/user',
+                '\AwemaPL\Auth\Controllers\Installation\UserController@showRegisterForm'
+            )->name('auth.installation.user.register');
+        });
     }
 
     /**
