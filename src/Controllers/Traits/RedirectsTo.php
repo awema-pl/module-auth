@@ -38,7 +38,8 @@ trait RedirectsTo
         ]);
     }
     protected function ajax($data){
-        return response()->json($data);
+        return response()->json($data, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+            JSON_UNESCAPED_UNICODE);
     }
     
     protected function ajaxRedirectTo($request)
