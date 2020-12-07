@@ -49,6 +49,7 @@ class AuthServiceProvider extends ServiceProvider
             __DIR__ . '/../resources/views' => resource_path('views/vendor/awemapl-auth'),
         ], 'views');
         $this->bootMiddleware();
+        app('awema-auth')->addWidgets();
         Event::subscribe(EventSubscriber::class);
     }
 
@@ -178,5 +179,6 @@ class AuthServiceProvider extends ServiceProvider
         $kernel = $this->app->make(\Illuminate\Contracts\Http\Kernel::class);
         $kernel->pushMiddleware(Installation::class);
     }
+
 
 }

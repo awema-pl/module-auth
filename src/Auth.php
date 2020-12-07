@@ -61,11 +61,12 @@ class Auth implements AuthContract
         if ($this->isActiveUserRoutes()) {
             $this->userRoutes();
         }
-
         if ($this->isActiveTokenRoutes()) {
             $this->tokenRoutes();
         }
-
+        if ($this->isActiveWidgetTokenRoutes()) {
+            $this->widgetTokenRoutes();
+        }
     }
 
     /**
@@ -367,6 +368,15 @@ class Auth implements AuthContract
         return config('awemapl-auth.routes.token.active');
     }
 
+    /**
+     * Is active widget token routes
+     *
+     * @return \Illuminate\Config\Repository|\Illuminate\Contracts\Foundation\Application|mixed
+     */
+    private function isActiveWidgetTokenRoutes()
+    {
+        return config('awemapl-auth.routes.widget.token.active');
+    }
 
     /**
      * User routes
@@ -430,6 +440,21 @@ class Auth implements AuthContract
         });
     }
 
+    /**
+     * Widget token routes
+     */
+    protected function widgetTokenRoutes()
+    {
+
+        $prefix = config('awemapl-auth.routes.widget.token.prefix');
+        $namePrefix = config('awemapl-auth.routes.widget.token.name_prefix');
+        $middleware = config('awemapl-auth.routes.widget.token.middleware');
+        $this->router->prefix($prefix)->name($namePrefix)->middleware($middleware)->group(function () {
+            $this->router
+                ->post('/show-api-token', '\AwemaPL\Auth\Widgets\Tokens\Http\Controllers\WidgetController@showApiToken')
+                ->name('show_api_token');
+        });
+    }
 
     /**
      * Menu merge in navigation
@@ -454,4 +479,16 @@ class Auth implements AuthContract
         return !!config('auth-menu.merge_to_navigation');
     }
 
+    /**
+     * Add widgets
+     */
+    public function addWidgets(){
+        $view = view('awemapl-auth::widgets.tokens.index');
+        $array = config('starter.widgets', []);
+        array_push($array, [
+            'view' =>$view,
+            'order' => 100,
+        ]);
+        config(['starter.widgets'=> $array]);
+    }
 }

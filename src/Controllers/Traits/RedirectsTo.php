@@ -67,6 +67,16 @@ trait RedirectsTo
         ]);
     }
 
+    protected function ajaxSetData($storeDataParam, $storeData)
+    {
+        return $this->ajax([
+            'setData' => [
+                'storeDataParam' => $storeDataParam,
+                'storeData' => $storeData,
+            ]
+        ]);
+    }
+
     protected function getRedirectToUrl()
     {
         $url = $this->redirectMappings[get_class($this)] ?? null;

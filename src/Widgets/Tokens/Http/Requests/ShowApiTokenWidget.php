@@ -1,12 +1,13 @@
 <?php
 
-namespace AwemaPL\Auth\Sections\Tokens\Http\Requests;
+namespace AwemaPL\Auth\Widgets\Tokens\Http\Requests;
 
 use AwemaPL\Auth\Sections\Options\Models\Option;
+use AwemaPL\Auth\Widgets\Tokens\Http\Requests\Rules\PasswordValidation;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StoreToken extends FormRequest
+class ShowApiTokenWidget extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,12 +27,7 @@ class StoreToken extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => 'bail|required|integer',
-            'name' => ['required', 'string', 'max:255', Rule::unique('personal_access_tokens')->where(function ($query) {
-                return $query->where('tokenable_id', $this->user_id)
-                    ->where('tokenable_type', config('auth.providers.users.model'))
-                    ->where('name', $this->name);
-            })],
+            'password' => ['required', 'string', 'max:255', new PasswordValidation()],
         ];
     }
 
@@ -43,7 +39,7 @@ class StoreToken extends FormRequest
     public function attributes()
     {
         return [
-            'user_id' => _p('auth::requests.token.attributes.user_id', 'user'),
+            'password' =>  _p('auth::requests.widget.token.attributes.password', 'password'),
         ];
     }
 
@@ -54,8 +50,6 @@ class StoreToken extends FormRequest
      */
     public function messages()
     {
-        return [
-            'name.unique' => _p('auth::requests.token.messages.name_assigned_to_user', 'This name is already assigned to this user.'),
-        ];
+        return [];
     }
 }

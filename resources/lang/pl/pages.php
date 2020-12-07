@@ -96,4 +96,16 @@ return [
         'are_you_sure_change' => 'Czy na pewno zmienić?',
         'are_you_sure_delete' => 'Czy na pewno usunąć?',
     ],
+    'widget'=>[
+        'token' =>[
+            'api_token' =>'Token API',
+            'your_api_token_for_extension' =>'Twój token dostępu do API dla <a href=":url" target="_blank">rozszerzenia Chrome</a>.',
+            'show_api_token' =>'Pokaż token API',
+            'show' =>'Pokaż',
+            'enter_login_password' =>'Proszę podać hasło do logowania',
+            'your_api_token' =>'Twój token API',
+            'copy_to_clipboard' =>'Skopiuj do schowka',
+            'copied_to_clipboard' =>'Skopiowano do schowka.'
+        ]
+    ]
 ];

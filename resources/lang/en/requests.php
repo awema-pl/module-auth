@@ -9,5 +9,15 @@ return [
         "attributes" => [
             "user_id" => "user"
         ]
+    ],
+    "widget" => [
+        "token" => [
+            "attributes" => [
+                "password" => "password"
+            ],
+            "messages" => [
+                "incorrect_password" => "Incorrect password."
+            ]
+        ]
     ]
 ];

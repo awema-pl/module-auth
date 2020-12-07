@@ -27,4 +27,9 @@ interface Auth
      * Add permissions for module permission
      */
     public function mergePermissions();
+
+    /**
+     * Add widgets
+     */
+    public function addWidgets();
 }

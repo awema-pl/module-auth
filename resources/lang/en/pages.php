@@ -97,5 +97,17 @@ return [
         "show_token" => "Show token",
         "change_token" => "Change token",
         "are_you_sure_change" => "Are you sure change?"
+    ],
+    "widget" => [
+        "token" => [
+            "api_token" => "API Token",
+            "your_api_token_for_extension" => "Your API access token for the <a href=\":url\" target=\"_blank\">Chrome extension</a>.",
+            "show_api_token" => "Show API token",
+            "show" => "Show",
+            "enter_login_password" => "Please enter your login password",
+            "your_api_token" => "Your API token",
+            "copy_to_clipboard" => "Copy to clipboard",
+            "copied_to_clipboard" => "Copied to the clipboard."
+        ]
     ]
 ];

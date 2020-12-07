@@ -159,6 +159,17 @@ return [
                 'can:manage_tokens'
             ]
         ],
+        'widget'=>[
+            'token' => [
+                'active' => true,
+                'prefix' => '/widget/auth/tokens',
+                'name_prefix' => 'widget.auth.token.',
+                'middleware' => [
+                    'web',
+                    'auth',
+                ]
+            ],
+        ]
     ],
 
     /*
