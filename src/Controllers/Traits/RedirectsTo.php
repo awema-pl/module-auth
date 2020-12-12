@@ -31,17 +31,28 @@ trait RedirectsTo
             ?: (property_exists($this, 'redirectTo') ? $this->redirectTo : '/');
     }
 
-    protected function ajaxMessage($message)
+    protected function ajaxMessage($message, $status =200)
     {
         return $this->ajax([
+            'status' =>'success',
             'message' => $message
-        ]);
+        ], $status);
     }
-    protected function ajax($data){
-        return response()->json($data, 200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+
+    protected function ajaxMessageError($message, int $status, $code = '')
+    {
+        return $this->ajax([
+            'status' =>'error',
+            'message' => $message,
+            'code' => $code,
+        ], $status);
+    }
+
+    protected function ajax($data, $status =200){
+        return response()->json($data, $status, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
             JSON_UNESCAPED_UNICODE);
     }
-    
+
     protected function ajaxRedirectTo($request)
     {
         return $this->ajaxRedirectToUrl(redirect()
