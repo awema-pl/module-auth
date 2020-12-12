@@ -39,13 +39,14 @@ trait RedirectsTo
         ], $status);
     }
 
-    protected function ajaxMessageError($message, int $status, $code = '')
+    protected function ajaxMessageError($message, int $status, $code = '', $data = [])
     {
-        return $this->ajax([
+        $data = array_merge([
             'status' =>'error',
             'message' => $message,
             'code' => $code,
-        ], $status);
+        ], $data);
+        return $this->ajax($data, $status);
     }
 
     protected function ajax($data, $status =200){
