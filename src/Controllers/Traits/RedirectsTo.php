@@ -31,7 +31,7 @@ trait RedirectsTo
             ?: (property_exists($this, 'redirectTo') ? $this->redirectTo : '/');
     }
 
-    protected function ajaxMessage($message, $status =200)
+    protected function ajaxNotifySuccess($message, $status =200)
     {
         return $this->ajax([
             'status' =>'success',
@@ -39,7 +39,7 @@ trait RedirectsTo
         ], $status);
     }
 
-    protected function ajaxMessageError($message, int $status, $code = '', $data = [])
+    protected function ajaxNotifyError($message, int $status, $code = '', $data = [])
     {
         $data = array_merge([
             'status' =>'error',

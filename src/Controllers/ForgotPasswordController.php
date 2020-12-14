@@ -52,7 +52,7 @@ class ForgotPasswordController extends Controller
     protected function sendResetLinkResponse(Request $request, $response)
     {
         if ($request->ajax()) {
-            return $this->ajaxMessage(trans($response));
+            return $this->ajaxNotifySuccess(trans($response));
         }
         
         return redirect($this->redirectPath())
