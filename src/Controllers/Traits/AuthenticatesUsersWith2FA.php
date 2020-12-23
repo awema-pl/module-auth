@@ -32,7 +32,8 @@ trait AuthenticatesUsersWith2FA
         if ($request->ajax()) {
             return response()->json([
                 'redirectUrl' => route('login.twofactor.index', [], false)
-            ]);
+            ],200, ['Content-Type' => 'application/json;charset=UTF-8', 'Charset' => 'utf-8'],
+                JSON_UNESCAPED_UNICODE);
         }
 
         return redirect()->route('login.twofactor.index');
